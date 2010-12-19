@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="include\mechanix" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,14 +27,17 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add directory="include\mechanix" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="include\mechanix\vector2.hpp" />
+		<Unit filename="include\mechanix\vector2.inl" />
 		<Extensions>
 			<code_completion />
 			<envvars />
