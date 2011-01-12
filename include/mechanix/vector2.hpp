@@ -23,6 +23,10 @@ class Vector2
         */
         Vector2(T X, T Y);
 
+        /** Destructor.
+         */
+        ~Vector2(){};
+
         /** Get the lenght of the vector.
         * @return lenght of the vector
         */

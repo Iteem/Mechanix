@@ -25,6 +25,10 @@ class Matrix3
                 T a21, T a22, T a23,
                 T a31, T a32, T a33);
 
+        /** Destructor.
+         */
+        ~Matrix3(){};
+
         /** Transform a point by the matrix.
         * @param point Point to transform
         * @return Transformed point
