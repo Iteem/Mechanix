@@ -39,7 +39,7 @@ class Matrix3
         * @param translation Tranlation
         * @param rotation Rotation angle in radian
         */
-        static Matrix3<T> transformation(const Vector2<T>& translation, T rotation);
+        void transformation(const Vector2<T>& translation, T rotation);
 
         /** Overload of binary * operator
         * @param rhs Right operand of the multiplication

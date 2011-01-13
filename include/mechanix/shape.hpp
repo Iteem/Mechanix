@@ -23,32 +23,40 @@ class Shape
         /** Set the position of the shape.
          * @param position new position
          */
-        void SetPosition(const Vector2f &position);
+        void setPosition(const Vector2f &position);
 
         /** Get the position of the shape
          * @return positon of the shape
          */
-        Vector2f GetPosition(void) const;
+        Vector2f getPosition(void) const;
 
         /** Set the origin(center) of the shape.
          * @param origin new origin
          */
-        void SetOrigin(const Vector2f &origin);
+        void setOrigin(const Vector2f &origin);
 
         /** Get the origin(center) of the shape
          * @return origin of the shape
          */
-        Vector2f GetOrigin(void) const;
+        Vector2f getOrigin(void) const;
 
         /** Set the rotation of the shape.
          * @param rotation new rotation in radians
          */
-        void SetRotation(float rotation);
+        void setRotation(float rotation);
 
         /** Get the rotation of the shape.
          * @return rotation of the shape in radians
          */
-        float GetRotation(void) const;
+        float getRotation(void) const;
+
+        /** Check if the shape collide with an other.
+         * @return true if the two shapes collide
+         */
+        virtual bool collide(const Shape *shape) const = 0;
+
+    protected:
+        mutable bool m_isCompiled;
 
     private:
         Vector2f m_position; /**< Position of the shape*/

@@ -24,13 +24,13 @@ Vector2<T> Matrix3<T>::transform(const Vector2<T>& point) const
 }
 
 template <typename T>
-Matrix3<T> Matrix3<T>::transformation(const Vector2<T>& translation, T rotation)
+void Matrix3<T>::transformation(const Vector2<T>& translation, T rotation)
 {
     T sinx = std::sin(rotation);
     T cosx = std::cos(rotation);
-    return Matrix3<T>(cosx, -sinx, translation.x,
-                      sinx,  cosx, translation.y,
-                         0,     0,             1);
+    m_data[0] = cosx; m_data[1] =-sinx; m_data[2] = translation.x;
+    m_data[3] = sinx; m_data[4] = cosx; m_data[5] = translation.y;
+    m_data[6] = 0;    m_data[7] = 0;    m_data[8] = 1;
 }
 
 template <typename T>

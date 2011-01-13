@@ -28,7 +28,7 @@ inline void Vector2<T>::normalize()
 template <typename T>
 inline Vector2<T> Vector2<T>::normal() const
 {
-    return Vector2<T>(y, -x);
+    return Vector2<T>(-y, x);
 }
 
 template <typename T>
@@ -107,7 +107,7 @@ template <typename T>
 inline Vector2<T>& operator /=(Vector2<T> &lhs, T rhs)
 {
     lhs.x /= rhs;
-    lhs.y /= lhs;
+    lhs.y /= rhs;
     return lhs;
 }
 
