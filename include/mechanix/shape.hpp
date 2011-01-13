@@ -3,8 +3,6 @@
 
 #include <mechanix/vector2.hpp>
 
-#include <vector>
-
 namespace mx
 {
 
@@ -30,7 +28,7 @@ class Shape
         /** Get the position of the shape
          * @return positon of the shape
          */
-        Vector2f GetPosition(void);
+        Vector2f GetPosition(void) const;
 
         /** Set the origin(center) of the shape.
          * @param origin new origin
@@ -40,17 +38,17 @@ class Shape
         /** Get the origin(center) of the shape
          * @return origin of the shape
          */
-        Vector2f GetOrigin(void);
+        Vector2f GetOrigin(void) const;
 
         /** Set the rotation of the shape.
-         * @param new rotation in radians
+         * @param rotation new rotation in radians
          */
         void SetRotation(float rotation);
 
         /** Get the rotation of the shape.
          * @return rotation of the shape in radians
          */
-        float GetRotation(void);
+        float GetRotation(void) const;
 
     private:
         Vector2f m_position; /**< Position of the shape*/

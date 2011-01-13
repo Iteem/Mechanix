@@ -39,9 +39,11 @@
 		</Compiler>
 		<Unit filename="include\mechanix\matrix3.hpp" />
 		<Unit filename="include\mechanix\matrix3.inl" />
+		<Unit filename="include\mechanix\polygon.hpp" />
 		<Unit filename="include\mechanix\shape.hpp" />
 		<Unit filename="include\mechanix\vector2.hpp" />
 		<Unit filename="include\mechanix\vector2.inl" />
+		<Unit filename="src\mechanix\polygon.cpp" />
 		<Unit filename="src\mechanix\shape.cpp" />
 		<Extensions>
 			<code_completion />
