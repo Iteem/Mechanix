@@ -55,6 +55,15 @@ class Shape
          */
         virtual bool collide(const Shape *shape) const = 0;
 
+        enum Type{
+            PolygonType,
+            CircleType,
+            LineType,
+            NoneType
+        };
+
+        virtual Type getType(void) const = 0;
+
     protected:
         mutable bool m_isCompiled;
 

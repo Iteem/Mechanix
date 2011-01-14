@@ -32,6 +32,8 @@ class Polygon : public Shape
 
         Vector2f MTD(const Polygon *polygon) const;
 
+        virtual Type getType() const;
+
     private:
         void compile(void) const;
         bool interCollide(const Polygon *polygon) const;

@@ -57,17 +57,27 @@ void Polygon::setPoint(size_t i, Vector2f position)
     m_isCompiled = false;
 }
 
+Shape::Type Polygon::getType() const
+{
+    return Shape::PolygonType;
+}
+
 bool Polygon::collide(const Shape *shape) const
 {
-    const Polygon *polygon = dynamic_cast<const Polygon *>(shape);
-    if(polygon != NULL){
-        if(!m_isCompiled)
-            compile();
-        if(!polygon->m_isCompiled)
-            polygon->compile();
-        return interCollide(polygon) and polygon->interCollide(this);
+    switch(shape->getType())
+    {
+        case PolygonType:
+            {
+            const Polygon *polygon = static_cast<const Polygon *>(shape);
+            if(!m_isCompiled)
+                compile();
+            if(!polygon->m_isCompiled)
+                polygon->compile();
+            return interCollide(polygon) and polygon->interCollide(this);
+            }
+        default:
+            return false;
     }
-    return false;
 }
 
 void Polygon::compile(void) const
