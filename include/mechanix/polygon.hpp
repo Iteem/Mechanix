@@ -30,9 +30,12 @@ class Polygon : public Shape
 
         virtual bool collide(const Shape *shape) const;
 
+        Vector2f MTD(const Polygon *polygon) const;
+
     private:
         void compile(void) const;
-        bool inter_collide(const Polygon *polygon) const;
+        bool interCollide(const Polygon *polygon) const;
+        Vector2f internMTD(const Polygon *polygon) const;
 
         std::vector< Vector2f > m_points;
         mutable std::vector< Vector2f > m_transformedPoints;

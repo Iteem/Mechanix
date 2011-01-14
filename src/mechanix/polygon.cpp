@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+#include <iostream>
+
 namespace mx
 {
 
@@ -39,26 +41,33 @@ void Polygon::setPoint(size_t i, Vector2f position)
 {
     m_points[i] = position;
 
-    Vector2f tmp = m_points[i];
-    if(i == m_points.size()-1)
-        tmp -= m_points[0];
-    else
-        tmp -= m_points[i+1];
-    tmp = tmp.normal();
+    int j = i - 1;
+    if(j < 0) j = m_points.size()-1;
+    int k = i + 1;
+    if(k >= static_cast<int>(m_points.size())) k = 0;
+
+    Vector2f tmp = (m_points[j]-m_points[i]).normal();
+    tmp.normalize();
+    m_normals[j] = tmp;
+    tmp = (m_points[i]-m_points[k]).normal();
     tmp.normalize();
     m_normals[i] = tmp;
+
 
     m_isCompiled = false;
 }
 
 bool Polygon::collide(const Shape *shape) const
 {
-    const Polygon *polygon = static_cast<const Polygon *>(shape);
-    if(!m_isCompiled)
-        compile();
-    if(!polygon->m_isCompiled)
-        polygon->compile();
-    return inter_collide(polygon) and polygon->inter_collide(this);
+    const Polygon *polygon = dynamic_cast<const Polygon *>(shape);
+    if(polygon != NULL){
+        if(!m_isCompiled)
+            compile();
+        if(!polygon->m_isCompiled)
+            polygon->compile();
+        return interCollide(polygon) and polygon->interCollide(this);
+    }
+    return false;
 }
 
 void Polygon::compile(void) const
@@ -77,7 +86,7 @@ void Polygon::compile(void) const
     m_isCompiled = true;
 }
 
-bool Polygon::inter_collide(const Polygon *polygon) const
+bool Polygon::interCollide(const Polygon *polygon) const
 {
     for(size_t i = 0; i < m_transformedNormals.size(); ++i){
         float min1 = dot(m_transformedNormals[i], m_transformedPoints[0]);
@@ -101,6 +110,64 @@ bool Polygon::inter_collide(const Polygon *polygon) const
             return false;
     }
     return true;
+}
+
+Vector2f Polygon::MTD(const Polygon *polygon) const
+{
+    Vector2f vec;
+    Vector2f vec1 = internMTD(polygon);
+    Vector2f vec2 = polygon->internMTD(this);
+
+    if(vec1.length() < vec2.length())
+        vec = vec1;
+    else
+        vec = vec2;
+
+    if(dot(vec, polygon->getPosition()-getPosition()) < 0)
+        return vec;
+    else
+        return -vec;
+}
+
+Vector2f Polygon::internMTD(const Polygon *polygon) const
+{
+    Vector2f vec;
+    bool firstIteration = true;
+    for(size_t i = 0; i < m_transformedNormals.size(); ++i){
+        float min1 = dot(m_transformedNormals[i], m_transformedPoints[0]);
+        float max1 = min1;
+        float min2 = dot(m_transformedNormals[i], polygon->m_transformedPoints[0]);
+        float max2 = min2;
+
+        for(size_t j = 0; j < m_transformedPoints.size(); ++j){
+            float h = dot(m_transformedNormals[i], m_transformedPoints[j]);
+            if(h < min1) min1 = h;
+            else if(h > max1) max1 = h;
+        }
+
+        for(size_t j = 0; j < polygon->m_transformedPoints.size(); ++j){
+            float h = dot(m_transformedNormals[i], polygon->m_transformedPoints[j]);
+            if(h < min2) min2 = h;
+            else if(h > max2) max2 = h;
+        }
+
+        float k1 = max1 - min2;
+        float k2 = max2 - min1;
+
+        Vector2f tmp;
+        if(std::abs(k1) < std::abs(k2))
+            tmp = m_transformedNormals[i] * k1;
+        else
+            tmp = m_transformedNormals[i] * k2;
+
+        if(firstIteration){
+            vec = tmp;
+            firstIteration = false;
+        }
+        if(tmp.x*tmp.x + tmp.y*tmp.y < vec.x*vec.x + vec.y*vec.y)
+            vec = tmp;
+    }
+    return vec;
 }
 
 } //namespace mx
