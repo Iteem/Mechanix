@@ -9,7 +9,7 @@
 			<Target title="Debug">
 				<Option output="libMechanix" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -21,7 +21,7 @@
 			<Target title="Release">
 				<Option output="libMechanix" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -37,14 +37,16 @@
 		<Compiler>
 			<Add directory="include" />
 		</Compiler>
-		<Unit filename="include\mechanix\matrix3.hpp" />
-		<Unit filename="include\mechanix\matrix3.inl" />
-		<Unit filename="include\mechanix\polygon.hpp" />
-		<Unit filename="include\mechanix\shape.hpp" />
-		<Unit filename="include\mechanix\vector2.hpp" />
-		<Unit filename="include\mechanix\vector2.inl" />
-		<Unit filename="src\mechanix\polygon.cpp" />
-		<Unit filename="src\mechanix\shape.cpp" />
+		<Unit filename="include/mechanix/line.hpp" />
+		<Unit filename="include/mechanix/matrix3.hpp" />
+		<Unit filename="include/mechanix/matrix3.inl" />
+		<Unit filename="include/mechanix/polygon.hpp" />
+		<Unit filename="include/mechanix/shape.hpp" />
+		<Unit filename="include/mechanix/vector2.hpp" />
+		<Unit filename="include/mechanix/vector2.inl" />
+		<Unit filename="src/mechanix/line.cpp" />
+		<Unit filename="src/mechanix/polygon.cpp" />
+		<Unit filename="src/mechanix/shape.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
