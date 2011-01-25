@@ -84,11 +84,15 @@ void Polygon::compile(void) const
 {
     Matrix3f tmp;
     tmp.transformation(Vector2f(0,0), getRotation());
+    if(m_normals.size() != m_transformedNormals.size())
+        m_transformedNormals.resize(m_normals.size());
     for(size_t i = 0; i < m_normals.size(); ++i){
         m_transformedNormals[i] = tmp.transform(m_normals[i]);
     }
 
     tmp.transformation(getPosition() - getOrigin(), getRotation());
+    if(m_points.size() != m_transformedPoints.size())
+        m_transformedPoints.resize(m_points.size());
     for(size_t i = 0; i < m_points.size(); ++i){
         m_transformedPoints[i] = tmp.transform(m_points[i]);
     }
