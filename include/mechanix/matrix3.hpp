@@ -35,11 +35,12 @@ class Matrix3
         */
         Vector2<T> transform(const Vector2<T>& point) const;
 
-        /** Create a Matrix from a given translation and rotation.
+        /** Create a Matrix from a given translation,rotation and origin.
         * @param translation Tranlation
+        * @param translation Origin
         * @param rotation Rotation angle in radian
         */
-        void transformation(const Vector2<T>& translation, T rotation);
+        void transformation(const Vector2<T>& translation, const Vector2<T>& origin, T rotation);
 
         /** Overload of binary * operator
         * @param rhs Right operand of the multiplication

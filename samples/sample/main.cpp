@@ -22,20 +22,25 @@ int main(void)
     p1.setPoint(0, mx::Vector2f(  0, 50));
     p1.setPoint(1, mx::Vector2f(-50,  0));
     p1.setPoint(2, mx::Vector2f( 50,  0));
+    p1.setOrigin(mx::Vector2f(0, 50));
     p1.setPosition(mx::Vector2f(100,100));
     mx::Polygon p2(p1);
     p2.setPosition(mx::Vector2f(400,400));
-    p2.setRotation(1.5f);
+    p2.setRotation(PI);
 
     sf::Shape s1;
     s1.AddPoint(  0,-50);
     s1.AddPoint(-50,  0);
     s1.AddPoint( 50,  0);
+    s1.SetOrigin(sf::Vector2f(0, -50));
     s1.SetPosition(100, 600-100);
     s1.SetColor(sf::Color::Blue);
     sf::Shape s2(s1);
     s2.SetPosition(400, 600-400);
-    s2.SetRotation(1.5f/PI*180);
+    s2.SetRotation(180);
+
+    sf::Shape cp1 = sf::Shape::Circle(0, 0, 3, sf::Color::White);
+    sf::Shape cp2 = sf::Shape::Circle(0, 0, 3, sf::Color::White);
 
     while(app.IsOpened()){
         sf::Event event;
@@ -78,16 +83,23 @@ int main(void)
         if(p1.collide(&p2)){
             s1.SetColor(sf::Color::Red);
             s2.SetColor(sf::Color::Red);
-            mx::Vector2f vec(p1.MTD(&p2));
+            cp1.SetColor(sf::Color::Green);
+            cp2.SetColor(sf::Color::Green);
+            cp1.SetPosition(s1.GetPosition().x, s1.GetPosition().y);
+            cp2.SetPosition(s2.GetPosition().x, s2.GetPosition().y);
         }else{
             s1.SetColor(sf::Color::Blue);
             s2.SetColor(sf::Color::Blue);
+            cp1.SetColor(sf::Color(0,0,0,0));
+            cp2.SetColor(sf::Color(0,0,0,0));
         }
 
         app.Clear();
 
         app.Draw(s1);
         app.Draw(s2);
+        app.Draw(cp1);
+        app.Draw(cp2);
 
         app.Display();
     }
