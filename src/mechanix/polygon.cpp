@@ -3,21 +3,19 @@
 
 #include <cmath>
 
-#include <iostream>
-
 namespace mx
 {
 
 Polygon::Polygon(size_t numberOfPoints)
 {
-    SetNumberOfPoints(numberOfPoints);
+    setNumberOfPoints(numberOfPoints);
 }
 
 Polygon::~Polygon()
 {
 }
 
-void Polygon::SetNumberOfPoints(size_t numberOfPoints)
+void Polygon::setNumberOfPoints(size_t numberOfPoints)
 {
     if(numberOfPoints < 3)
         numberOfPoints = 3;
@@ -25,11 +23,21 @@ void Polygon::SetNumberOfPoints(size_t numberOfPoints)
     m_transformedPoints.resize(numberOfPoints);
     m_normals.resize(numberOfPoints);
     m_transformedNormals.resize(numberOfPoints);
+
+    m_isCompiled = false;
 }
 
-size_t Polygon::GetNumberOfPoint(void)
+size_t Polygon::getNumberOfPoints(void)
 {
     return m_points.size();
+}
+
+Vector2f Polygon::getTransformedPoint(size_t i) const
+{
+    if(!m_isCompiled)
+        compile();
+
+    return m_transformedPoints[i];
 }
 
 Vector2f Polygon::getPoint(size_t i) const
@@ -95,7 +103,6 @@ void Polygon::compile(void) const
         m_transformedPoints.resize(m_points.size());
     for(size_t i = 0; i < m_points.size(); ++i){
         m_transformedPoints[i] = tmp.transform(m_points[i]);
-        std::cout << m_transformedPoints[i].x << " " << m_transformedPoints[i].y << std::endl;
     }
 
     m_isCompiled = true;

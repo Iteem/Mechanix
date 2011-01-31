@@ -20,13 +20,15 @@ class Polygon : public Shape
 
         virtual ~Polygon();
 
-        void SetNumberOfPoints(size_t numberOfPoints);
+        void setNumberOfPoints(size_t numberOfPoints);
 
-        size_t GetNumberOfPoint(void);
+        size_t getNumberOfPoints(void);
+
+        void setPoint(size_t i, Vector2f position);
 
         Vector2f getPoint(size_t i) const;
 
-        void setPoint(size_t i, Vector2f position);
+        Vector2f getTransformedPoint(size_t i) const;
 
         virtual bool collide(const Shape *shape) const;
 

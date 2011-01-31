@@ -85,8 +85,35 @@ int main(void)
             s2.SetColor(sf::Color::Red);
             cp1.SetColor(sf::Color::Green);
             cp2.SetColor(sf::Color::Green);
-            cp1.SetPosition(s1.GetPosition().x, s1.GetPosition().y);
-            cp2.SetPosition(s2.GetPosition().x, s2.GetPosition().y);
+
+            bool b = true;
+            for(int i = 0; i < p1.getNumberOfPoints(); ++i){
+                mx::Line line1;
+                if(i == p1.getNumberOfPoints() - 1)
+                    line1 = mx::Line(p1.getTransformedPoint(i), p1.getTransformedPoint(0)-p1.getTransformedPoint(i));
+                else
+                    line1 = mx::Line(p1.getTransformedPoint(i), p1.getTransformedPoint(i+1)-p1.getTransformedPoint(i));
+                for(int j = 0; j < p2.getNumberOfPoints(); ++j){
+                    mx::Line line2;
+                    if(j == p2.getNumberOfPoints() - 1)
+                        line2 = mx::Line(p2.getTransformedPoint(j), p2.getTransformedPoint(0)-p2.getTransformedPoint(j));
+                    else
+                        line2 = mx::Line(p2.getTransformedPoint(j), p2.getTransformedPoint(j+1)-p2.getTransformedPoint(j));
+
+                    float t1 = line1.intersects(line2);
+                    float t2 = line2.intersects(line1);
+
+                    if(0.f < t1 and t1 < 1.f and 0.f < t2 and t2 < 1.f){
+                        mx::Vector2f vec = line1.getPoint() + t1 * line1.getDirectionVector();
+                        if(b)
+                            cp1.SetPosition(vec.x, 600 - vec.y);
+                        else
+                            cp2.SetPosition(vec.x, 600 - vec.y);
+
+                        b = false;
+                    }
+                }
+            }
         }else{
             s1.SetColor(sf::Color::Blue);
             s2.SetColor(sf::Color::Blue);
