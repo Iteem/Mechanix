@@ -58,7 +58,6 @@ class Shape
         enum Type{
             PolygonType,
             CircleType,
-            LineType,
             NoneType
         };
 

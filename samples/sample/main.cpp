@@ -22,9 +22,11 @@ int main(void)
     p1.setPoint(0, mx::Vector2f(  0, 50));
     p1.setPoint(1, mx::Vector2f(-50,  0));
     p1.setPoint(2, mx::Vector2f( 50,  0));
-    p1.setOrigin(mx::Vector2f(0, 50));
+    p1.setOrigin(mx::Vector2f(0, 25));
     p1.setPosition(mx::Vector2f(100,100));
     mx::Polygon p2(p1);
+    p2.setNumberOfPoints(4);
+    p2.setPoint(3, mx::Vector2f(50, 50));
     p2.setPosition(mx::Vector2f(400,400));
     p2.setRotation(PI);
 
@@ -32,10 +34,11 @@ int main(void)
     s1.AddPoint(  0,-50);
     s1.AddPoint(-50,  0);
     s1.AddPoint( 50,  0);
-    s1.SetOrigin(sf::Vector2f(0, -50));
+    s1.SetOrigin(sf::Vector2f(0, -25));
     s1.SetPosition(100, 600-100);
     s1.SetColor(sf::Color::Blue);
     sf::Shape s2(s1);
+    s2.AddPoint(sf::Vector2f(50, -50));
     s2.SetPosition(400, 600-400);
     s2.SetRotation(180);
 
