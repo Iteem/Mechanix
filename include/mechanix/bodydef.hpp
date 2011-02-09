@@ -2,9 +2,6 @@
 #define BODYDEF_HPP_INCLUDED
 
 #include <mechanix/vector2.hpp>
-#include <mechanix/shape.hpp>
-
-#include <cstddef>
 
 namespace mx
 {
@@ -26,16 +23,11 @@ class BodyDef
         void setFriction(float friction);
 
         void setElasticity(float elasticity);
-
-        void setShape(const Shape * shape);
-
     private:
         float m_mass;
         float m_momentOfInertia;
         float m_friction;
         float m_elasticity;
-
-        Shape *m_shape;
 };
 
 } //namespace mx

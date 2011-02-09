@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <mechanix/polygon.hpp>
 #include <mechanix/line.hpp>
+#include <mechanix/bodydef.hpp>
+#include <mechanix/body.hpp>
 
 #include <iostream>
 
@@ -19,16 +21,29 @@ int main(void)
     app.SetFramerateLimit(60);
 
     mx::Polygon p1(3);
-    p1.setPoint(0, mx::Vector2f(  0, 50));
-    p1.setPoint(1, mx::Vector2f(-50,  0));
-    p1.setPoint(2, mx::Vector2f( 50,  0));
-    p1.setOrigin(mx::Vector2f(0, 25));
-    p1.setPosition(mx::Vector2f(100,100));
+    p1.setPoint(0, mx::Vector2f(   0, .5f));
+    p1.setPoint(1, mx::Vector2f(-.5f,  0));
+    p1.setPoint(2, mx::Vector2f( .5f,  0));
+    p1.setOrigin(mx::Vector2f(0, .25f));
+    p1.setPosition(mx::Vector2f(1.f,1.f));
     mx::Polygon p2(p1);
     p2.setNumberOfPoints(4);
-    p2.setPoint(3, mx::Vector2f(50, 50));
-    p2.setPosition(mx::Vector2f(400,400));
+    p2.setPoint(3, mx::Vector2f(.5f, .5f));
+    p2.setPosition(mx::Vector2f(4.f,4.f));
     p2.setRotation(PI);
+
+    mx::BodyDef def;
+    def.setMass(10.f);
+    def.setMomentOfInertia(2.f);
+
+    mx::Body b1(def, &p1);
+    mx::Body b2(def, &p2);
+
+    b1.acceleration(mx::Vector2f(0.5f, 1.f));
+    b1.angularAcceleration(PI/4);
+
+    b2.acceleration(mx::Vector2f(-0.5f, 0.f));
+    b2.angularAcceleration(PI);
 
     sf::Shape s1;
     s1.AddPoint(  0,-50);
@@ -53,40 +68,49 @@ int main(void)
             }
             else if(event.Type == sf::Event::MouseButtonPressed){
                 if(event.MouseButton.Button == sf::Mouse::Left){
-                    p1.setPosition(mx::Vector2f(event.MouseButton.X, 600-event.MouseButton.Y));
-                    s1.SetPosition(event.MouseButton.X, event.MouseButton.Y);
+                    //p1.setPosition(mx::Vector2f(event.MouseButton.X, 600-event.MouseButton.Y));
+                    //s1.SetPosition(event.MouseButton.X, event.MouseButton.Y);
                 }
                 else if(event.MouseButton.Button == sf::Mouse::Right){
-                    p2.setPosition(mx::Vector2f(event.MouseButton.X, 600-event.MouseButton.Y));
-                    s2.SetPosition(event.MouseButton.X, event.MouseButton.Y);
+                    //p2.setPosition(mx::Vector2f(event.MouseButton.X, 600-event.MouseButton.Y));
+                    //s2.SetPosition(event.MouseButton.X, event.MouseButton.Y);
                 }
             }
             else if(event.Type == sf::Event::KeyPressed){
-                if(event.Key.Code == sf::Key::Return){
+                /*if(event.Key.Code == sf::Key::Return){
                     if(p1.collide(&p2)){
                         mx::Vector2f vec(p1.MTD(&p2));
                         p1.setPosition(p1.getPosition()+vec*1.01f);
                         s1.SetPosition(p1.getPosition().x, 600-p1.getPosition().y);
                     }
-                }
+                }*/
             }
         }
 
 
-        if(app.GetInput().IsKeyDown(sf::Key::P)){
+        /*if(app.GetInput().IsKeyDown(sf::Key::P)){
             p1.setRotation(p1.getRotation()+app.GetFrameTime()*PI);
             s1.SetRotation(p1.getRotation()/PI*180);
         }
         if(app.GetInput().IsKeyDown(sf::Key::O)){
             p2.setRotation(p2.getRotation()+app.GetFrameTime()*PI);
             s2.SetRotation(p2.getRotation()/PI*180);
-        }
+        }*/
 
+        b1.update(app.GetFrameTime());
+        b2.update(app.GetFrameTime());
 
-        if(p1.collide(&p2)){
+        s1.SetPosition(b1.getShape()->getPosition().x * 100,
+                       600 - b1.getShape()->getPosition().y * 100);
+        s1.SetRotation(b1.getShape()->getRotation() * 180 / PI);
+        s2.SetPosition(b2.getShape()->getPosition().x * 100,
+                       600 - b2.getShape()->getPosition().y * 100);
+        s2.SetRotation(b2.getShape()->getRotation() * 180 / PI);
+
+        if(b1.getShape()->collide(b2.getShape())){
             s1.SetColor(sf::Color::Red);
             s2.SetColor(sf::Color::Red);
-            cp1.SetColor(sf::Color::Green);
+            /*cp1.SetColor(sf::Color::Green);
             cp2.SetColor(sf::Color::Green);
 
             bool b = true;
@@ -116,12 +140,12 @@ int main(void)
                         b = false;
                     }
                 }
-            }
+            }*/
         }else{
             s1.SetColor(sf::Color::Blue);
             s2.SetColor(sf::Color::Blue);
-            cp1.SetColor(sf::Color(0,0,0,0));
-            cp2.SetColor(sf::Color(0,0,0,0));
+            //cp1.SetColor(sf::Color(0,0,0,0));
+            //cp2.SetColor(sf::Color(0,0,0,0));
         }
 
         app.Clear();

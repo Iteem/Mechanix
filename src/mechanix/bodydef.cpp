@@ -1,5 +1,4 @@
 #include <mechanix/bodydef.hpp>
-#include <mechanix/polygon.hpp>
 
 namespace mx
 {
@@ -8,14 +7,12 @@ BodyDef::BodyDef() :
 m_mass(0),
 m_momentOfInertia(0),
 m_friction(0),
-m_elasticity(0),
-m_shape(NULL)
+m_elasticity(0)
 {
 }
 
 BodyDef::~BodyDef()
 {
-    delete m_shape;
 }
 
 void BodyDef::setMass(float mass)
@@ -36,15 +33,6 @@ void BodyDef::setFriction(float friction)
 void BodyDef::setElasticity(float elasticity)
 {
     m_elasticity = elasticity;
-}
-
-void BodyDef::setShape(const Shape * shape)
-{
-    delete m_shape;
-    if(shape->getType() == Shape::PolygonType){
-        m_shape = new Polygon(*(static_cast<const Polygon *>(shape)));
-    }else{
-    }
 }
 
 } //namespace mx
