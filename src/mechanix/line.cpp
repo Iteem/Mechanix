@@ -1,4 +1,5 @@
 #include <mechanix/line.hpp>
+#include <cmath>
 
 namespace mx
 {
@@ -35,12 +36,15 @@ Vector2f Line::getDirectionVector(void)
 
 float Line::intersects(const Line &line)
 {
-    float q = (line.m_directionVector.x * m_directionVector.y)/
+    /*float q = (line.m_directionVector.x * m_directionVector.y)/
               (line.m_directionVector.y * m_directionVector.x);
 
     return (((line.m_point.x - m_point.x) / m_directionVector.x) -
             (q * (line.m_point.y - m_point.y) / m_directionVector.y)) /
-            (1.f - q);
+            (1.f - q);*/
+    float q = m_directionVector.x*line.m_directionVector.y - line.m_directionVector.x*m_directionVector.y;
+
+    return (line.m_directionVector.x*(m_point.y - line.m_point.y) - line.m_directionVector.y*(m_point.x - line.m_point.x)) / q;
 }
 
 } //namespace mx

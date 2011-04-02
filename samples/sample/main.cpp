@@ -32,6 +32,7 @@ int main(void)
     p2.setPosition(mx::Vector2f(4.f,4.f));
     p2.setRotation(PI);
 
+    /*
     mx::BodyDef def;
     def.setMass(10.f);
     def.setMomentOfInertia(2.f);
@@ -43,7 +44,7 @@ int main(void)
     b1.angularAcceleration(PI/4);
 
     b2.acceleration(mx::Vector2f(-0.5f, 0.f));
-    b2.angularAcceleration(PI);
+    b2.angularAcceleration(PI);*/
 
     sf::Shape s1;
     s1.AddPoint(  0,-50);
@@ -68,49 +69,50 @@ int main(void)
             }
             else if(event.Type == sf::Event::MouseButtonPressed){
                 if(event.MouseButton.Button == sf::Mouse::Left){
-                    //p1.setPosition(mx::Vector2f(event.MouseButton.X, 600-event.MouseButton.Y));
-                    //s1.SetPosition(event.MouseButton.X, event.MouseButton.Y);
+                    p1.setPosition(mx::Vector2f(event.MouseButton.X/100.f, (600-event.MouseButton.Y)/100.f));
+                    s1.SetPosition(event.MouseButton.X, event.MouseButton.Y);
                 }
                 else if(event.MouseButton.Button == sf::Mouse::Right){
-                    //p2.setPosition(mx::Vector2f(event.MouseButton.X, 600-event.MouseButton.Y));
-                    //s2.SetPosition(event.MouseButton.X, event.MouseButton.Y);
+                    p2.setPosition(mx::Vector2f(event.MouseButton.X/100.f, (600-event.MouseButton.Y)/100.f));
+                    s2.SetPosition(event.MouseButton.X, event.MouseButton.Y);
                 }
             }
             else if(event.Type == sf::Event::KeyPressed){
-                /*if(event.Key.Code == sf::Key::Return){
+                if(event.Key.Code == sf::Key::Return){
                     if(p1.collide(&p2)){
                         mx::Vector2f vec(p1.MTD(&p2));
                         p1.setPosition(p1.getPosition()+vec*1.01f);
                         s1.SetPosition(p1.getPosition().x, 600-p1.getPosition().y);
                     }
-                }*/
+                }
             }
         }
 
 
-        /*if(app.GetInput().IsKeyDown(sf::Key::P)){
+        if(app.GetInput().IsKeyDown(sf::Key::P)){
             p1.setRotation(p1.getRotation()+app.GetFrameTime()*PI);
             s1.SetRotation(p1.getRotation()/PI*180);
         }
         if(app.GetInput().IsKeyDown(sf::Key::O)){
             p2.setRotation(p2.getRotation()+app.GetFrameTime()*PI);
             s2.SetRotation(p2.getRotation()/PI*180);
-        }*/
+        }
 
-        b1.update(app.GetFrameTime());
-        b2.update(app.GetFrameTime());
+        //b1.update(app.GetFrameTime());
+        //b2.update(app.GetFrameTime());
 
-        s1.SetPosition(b1.getShape()->getPosition().x * 100,
+        /*s1.SetPosition(b1.getShape()->getPosition().x * 100,
                        600 - b1.getShape()->getPosition().y * 100);
         s1.SetRotation(b1.getShape()->getRotation() * 180 / PI);
         s2.SetPosition(b2.getShape()->getPosition().x * 100,
                        600 - b2.getShape()->getPosition().y * 100);
-        s2.SetRotation(b2.getShape()->getRotation() * 180 / PI);
+        s2.SetRotation(b2.getShape()->getRotation() * 180 / PI);*/
 
-        if(b1.getShape()->collide(b2.getShape())){
+        //if(b1.getShape()->collide(b2.getShape())){
+        if(p1.collide(&p2)){
             s1.SetColor(sf::Color::Red);
             s2.SetColor(sf::Color::Red);
-            /*cp1.SetColor(sf::Color::Green);
+            cp1.SetColor(sf::Color::Green);
             cp2.SetColor(sf::Color::Green);
 
             bool b = true;
@@ -133,19 +135,19 @@ int main(void)
                     if(0.f < t1 and t1 < 1.f and 0.f < t2 and t2 < 1.f){
                         mx::Vector2f vec = line1.getPoint() + t1 * line1.getDirectionVector();
                         if(b)
-                            cp1.SetPosition(vec.x, 600 - vec.y);
+                            cp1.SetPosition(vec.x*100, 600 - vec.y*100);
                         else
-                            cp2.SetPosition(vec.x, 600 - vec.y);
+                            cp2.SetPosition(vec.x*100, 600 - vec.y*100);
 
                         b = false;
                     }
                 }
-            }*/
+            }
         }else{
             s1.SetColor(sf::Color::Blue);
             s2.SetColor(sf::Color::Blue);
-            //cp1.SetColor(sf::Color(0,0,0,0));
-            //cp2.SetColor(sf::Color(0,0,0,0));
+            cp1.SetColor(sf::Color(0,0,0,0));
+            cp2.SetColor(sf::Color(0,0,0,0));
         }
 
         app.Clear();
