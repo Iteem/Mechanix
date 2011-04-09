@@ -11,7 +11,7 @@ World::~World()
 {
 }
 
-Body::Ptr World::creatBody(const BodyDef &bodyDef, Shape *shape)
+Body::Ptr World::createBody(const BodyDef &bodyDef, Shape *shape)
 {
     Body::Ptr ptr(new Body(bodyDef, shape));
     m_bodies.push_back(ptr);

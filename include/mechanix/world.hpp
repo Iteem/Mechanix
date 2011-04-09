@@ -18,7 +18,7 @@ class World
 
         ~World();
 
-        Body::Ptr creatBody(const BodyDef &bodyDef, Shape *shape);
+        Body::Ptr createBody(const BodyDef &bodyDef, Shape *shape);
     private:
         typedef std::list<Body::Ptr> BodyList;
 
