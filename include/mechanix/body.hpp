@@ -5,6 +5,8 @@
 #include <mechanix/shape.hpp>
 #include <mechanix/vector2.hpp>
 
+#include <boost/shared_ptr.hpp>
+
 namespace mx
 {
 
@@ -32,6 +34,8 @@ class Body
         void setShape(const Shape *shape);
 
         Shape *getShape(void) const;
+
+        typedef boost::shared_ptr<Body> Ptr;
     private:
         Vector2f m_velocity;
         float m_angularVelocity;
