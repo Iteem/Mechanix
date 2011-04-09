@@ -1,8 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <mechanix/polygon.hpp>
-#include <mechanix/line.hpp>
-#include <mechanix/bodydef.hpp>
-#include <mechanix/body.hpp>
+#include <mechanix/mechanix.hpp>
 
 #include <iostream>
 

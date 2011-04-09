@@ -36,12 +36,7 @@ Vector2f Line::getDirectionVector(void)
 
 float Line::intersects(const Line &line)
 {
-    /*float q = (line.m_directionVector.x * m_directionVector.y)/
-              (line.m_directionVector.y * m_directionVector.x);
-
-    return (((line.m_point.x - m_point.x) / m_directionVector.x) -
-            (q * (line.m_point.y - m_point.y) / m_directionVector.y)) /
-            (1.f - q);*/
+    //t1 = (u2*(y1-y2) - v2*(x1-x2))/(u1*v2 - u2*v1)
     float q = m_directionVector.x*line.m_directionVector.y - line.m_directionVector.x*m_directionVector.y;
 
     return (line.m_directionVector.x*(m_point.y - line.m_point.y) - line.m_directionVector.y*(m_point.x - line.m_point.x)) / q;
