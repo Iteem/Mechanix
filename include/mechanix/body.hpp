@@ -15,7 +15,7 @@ namespace mx
 class Body
 {
     public:
-        Body(const BodyDef &bodyDef, Shape *shape);
+        Body(const BodyDef &bodyDef, const Shape *shape);
 
         ~Body();
 
@@ -33,14 +33,14 @@ class Body
 
         void setShape(const Shape *shape);
 
-        Shape *getShape(void) const;
+        Shape::Ptr getShape(void) const;
 
         typedef boost::shared_ptr<Body> Ptr;
     private:
         Vector2f m_velocity;
         float m_angularVelocity;
 
-        Shape *m_shape;
+        Shape::Ptr m_shape;
         BodyDef m_bodyDef;
 };
 

@@ -4,10 +4,10 @@
 namespace mx
 {
 
-Body::Body(const BodyDef &bodyDef, Shape *shape) :
+Body::Body(const BodyDef &bodyDef, const Shape *shape) :
 m_velocity(),
 m_angularVelocity(0.f),
-m_shape(NULL),
+m_shape(),
 m_bodyDef(bodyDef)
 {
     setShape(shape);
@@ -15,7 +15,6 @@ m_bodyDef(bodyDef)
 
 Body::~Body()
 {
-    delete m_shape;
 }
 
 void Body::update(float timeStep)
@@ -49,16 +48,16 @@ void Body::angularAcceleration(float acc)
     m_angularVelocity += acc;
 }
 
-void Body::setShape(const Shape * shape)
+void Body::setShape(const Shape *shape)
 {
-    delete m_shape;
     if(shape->getType() == Shape::PolygonType){
-        m_shape = new Polygon(*(static_cast<const Polygon *>(shape)));
+        m_shape = Shape::Ptr(new Polygon(*static_cast<const Polygon*>(shape)));
     }else{
+        //TODO
     }
 }
 
-Shape *Body::getShape(void) const
+Shape::Ptr Body::getShape(void) const
 {
     return m_shape;
 }

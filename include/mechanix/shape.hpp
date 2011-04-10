@@ -2,6 +2,7 @@
 #define SHAPE_HPP_INCLUDED
 
 #include <mechanix/vector2.hpp>
+#include <boost/shared_ptr.hpp>
 
 namespace mx
 {
@@ -62,6 +63,8 @@ class Shape
         };
 
         virtual Type getType(void) const = 0;
+
+        typedef boost::shared_ptr<Shape> Ptr;
 
     protected:
         mutable bool m_isCompiled;
