@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="sandbox" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="bin\Debug\sandbox" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++0x" />
+					<Add option="-g" />
+					<Add directory="..\..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-lsfgui-d" />
+					<Add option="-lsfml-audio-d" />
+					<Add option="-lsfml-graphics-d" />
+					<Add option="-lsfml-window-d" />
+					<Add option="-lsfml-system-d" />
+					<Add option="-lyaml-cpp" />
+					<Add library="..\..\lib\libMechanix-d.a" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="bin\Release\sandbox" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++0x" />
+					<Add directory="..\..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lsfgui" />
+					<Add option="-lsfml-audio" />
+					<Add option="-lsfml-graphics" />
+					<Add option="-lsfml-window" />
+					<Add option="-lsfml-system" />
+					<Add option="-lyaml-cpp" />
+					<Add library="..\..\lib\libMechanix.a" />
+				</Linker>
+			</Target>
+			<Target title="Debug Linux">
+				<Option output="bin\Debug\sandbox" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++0x" />
+					<Add option="-g" />
+					<Add directory="..\..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-lsfgui" />
+					<Add option="-lsfml-audio" />
+					<Add option="-lsfml-graphics" />
+					<Add option="-lsfml-window" />
+					<Add option="-lsfml-system" />
+					<Add option="-lyaml-cpp" />
+					<Add library="..\..\lib\libMechanix-d.a" />
+				</Linker>
+			</Target>
+			<Target title="Release Linux">
+				<Option output="bin\Release\sandbox" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++0x" />
+					<Add directory="..\..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lsfgui" />
+					<Add option="-lsfml-audio" />
+					<Add option="-lsfml-graphics" />
+					<Add option="-lsfml-window" />
+					<Add option="-lsfml-system" />
+					<Add option="-lyaml-cpp" />
+					<Add library="..\..\lib\libMechanix.a" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++0x" />
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="main.cpp" />
+		<Unit filename="sandbox.cpp" />
+		<Unit filename="sandbox.hpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
