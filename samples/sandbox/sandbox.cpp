@@ -1,6 +1,8 @@
 #include "sandbox.hpp"
 #include <sstream>
 
+#include "intersect.hpp"
+
 Sandbox::Sandbox() :
 m_window(sf::VideoMode(800, 600, 32), "PhysikTest", sf::Style::Titlebar | sf::Style::Close, sf::ContextSettings(24, 8, 6)),
 m_guiBackground(sf::Shape::Rectangle(600, 0, 200, 600, sf::Color(50, 50, 50))),
@@ -12,13 +14,14 @@ m_stepButton(sfg::Button::Create(sf::FloatRect(650, 250, 100, 30), "Single step"
 m_scrollbar(sfg::Scrollbar::Create(sf::FloatRect(660, 300, 110, 20), true)),
 m_scrollbarLabel(sfg::Label::Create(sf::Vector2f(0, 0))),
 m_run(false),
-m_makeStep(false)
+m_makeStep(false),
+m_renderInfos(),
+m_state(NULL)
 {
     m_window.SetFramerateLimit(60);
     m_window.ShowMouseCursor(false);
 
-    m_listbox->AddItem("Sample");
-    m_listbox->AddItem("Intersects");
+    m_listbox->AddItem("Intersect");
     m_listbox->AddItem("Collision");
 
     m_scrollbar->SetMinimum(10);
@@ -30,6 +33,7 @@ m_makeStep(false)
     m_pauseButton->Clicked = sfg::Slot<sfg::Button::ClickSlot>(&Sandbox::onPauseButtonClicked, this);
     m_stepButton->Clicked = sfg::Slot<sfg::Button::ClickSlot>(&Sandbox::onStepButtonClicked, this);
     m_scrollbar->Changed = sfg::Slot<sfg::Scrollbar::ChangeSlot>(&Sandbox::onScrollbarChanged, this);
+    m_listbox->Selected = sfg::Slot<sfg::StringListbox::SelectSlot>(&Sandbox::onListboxScrolled, this);
 
     m_gui.AddWidget(m_listbox);
     m_gui.AddWidget(m_runButton);
@@ -57,12 +61,19 @@ int Sandbox::run()
 
         m_window.Clear(sf::Color::Black);
 
+        if(m_state != NULL)
+        {
+            m_state->update(m_window.GetFrameTime());
+            m_state->display(m_renderInfos);
+        }
+
         m_window.Draw(m_guiBackground);
         m_gui.Render(m_window);
 
         m_window.Display();
     }
 
+    delete m_state;
     return 0;
 }
 
@@ -93,4 +104,19 @@ void Sandbox::onScrollbarChanged(sfg::Widget::Ptr widget)
 		sfg::AlignRight | sfg::AlignTop,
 		sf::Vector2f(0, 0)
 	);
+}
+
+void Sandbox::onListboxScrolled(sfg::Widget::Ptr widget)
+{
+    if(m_state != NULL){
+        m_state->destroy();
+    }
+    delete m_state;
+    m_state = NULL;
+
+    if(m_listbox->GetSelectedItem() == sf::String("Intersect"))
+    {
+        m_state = new Intersect(m_window);
+        m_state->init();
+    }
 }

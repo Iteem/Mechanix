@@ -10,6 +10,9 @@
 #include <SFGUI/Scrollbar.hpp>
 #include <SFGUI/Label.hpp>
 
+#include "renderinfos.hpp"
+#include "state.hpp"
+
 class Sandbox
 {
     public:
@@ -34,9 +37,13 @@ class Sandbox
         void onPauseButtonClicked(sfg::Widget::Ptr widget);
         void onStepButtonClicked(sfg::Widget::Ptr widget);
         void onScrollbarChanged(sfg::Widget::Ptr widget);
+        void onListboxScrolled(sfg::Widget::Ptr widget);
 
         bool m_run;
         bool m_makeStep;
+
+        RenderInfos m_renderInfos;
+        State *m_state;
 };
 
 #endif // SANDBOX_HPP_INCLUDED

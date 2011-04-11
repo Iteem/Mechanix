@@ -93,9 +93,14 @@
 			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="intersect.cpp" />
+		<Unit filename="intersect.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="renderinfos.cpp" />
+		<Unit filename="renderinfos.hpp" />
 		<Unit filename="sandbox.cpp" />
 		<Unit filename="sandbox.hpp" />
+		<Unit filename="state.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
