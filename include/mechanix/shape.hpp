@@ -2,6 +2,7 @@
 #define SHAPE_HPP_INCLUDED
 
 #include <mechanix/vector2.hpp>
+#include <mechanix/AABB.hpp>
 #include <boost/shared_ptr.hpp>
 
 namespace mx
@@ -55,6 +56,8 @@ class Shape
          * @return true if the two shapes collide
          */
         virtual bool collide(const Shape *shape) const = 0;
+
+        virtual AABB getAABB(void) const = 0;
 
         enum Type{
             PolygonType,

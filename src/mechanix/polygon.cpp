@@ -1,6 +1,7 @@
 #include <mechanix/polygon.hpp>
 #include <mechanix/matrix3.hpp>
 
+#include <algorithm>
 #include <cmath>
 
 namespace mx
@@ -63,6 +64,28 @@ void Polygon::setPoint(size_t i, Vector2f position)
 
 
     m_isCompiled = false;
+}
+
+AABB Polygon::getAABB(void) const
+{
+    if(!m_isCompiled)
+        compile();
+
+    if(m_points.size() > 0){
+        float left   = m_transformedPoints[0].x;
+        float right  = m_transformedPoints[0].x;
+        float top    = m_transformedPoints[0].y;
+        float bottom = m_transformedPoints[0].y;
+        for(size_t i = 1; i < m_points.size(); ++i){
+            left   = std::min(m_transformedPoints[i].x, left);
+            right  = std::max(m_transformedPoints[i].x, right);
+            top    = std::max(m_transformedPoints[i].y, top);
+            bottom = std::min(m_transformedPoints[i].y, bottom);
+        }
+        return AABB(mx::Vector2f(left, bottom), mx::Vector2f(right, top));
+    }else{
+        return AABB();
+    }
 }
 
 Shape::Type Polygon::getType() const

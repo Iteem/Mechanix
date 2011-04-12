@@ -37,6 +37,7 @@
 		<Compiler>
 			<Add directory="include" />
 		</Compiler>
+		<Unit filename="include\mechanix\AABB.hpp" />
 		<Unit filename="include\mechanix\body.hpp" />
 		<Unit filename="include\mechanix\bodydef.hpp" />
 		<Unit filename="include\mechanix\line.hpp" />
@@ -48,6 +49,7 @@
 		<Unit filename="include\mechanix\vector2.hpp" />
 		<Unit filename="include\mechanix\vector2.inl" />
 		<Unit filename="include\mechanix\world.hpp" />
+		<Unit filename="src\mechanix\AABB.cpp" />
 		<Unit filename="src\mechanix\body.cpp" />
 		<Unit filename="src\mechanix\bodydef.cpp" />
 		<Unit filename="src\mechanix\line.cpp" />

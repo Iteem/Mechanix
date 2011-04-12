@@ -115,12 +115,30 @@ void Intersect::update(float elapsedTime)
         cp1.SetColor(sf::Color(0,0,0,0));
         cp2.SetColor(sf::Color(0,0,0,0));
     }
+
+    aabb1 = sf::Shape::Rectangle(p1.getAABB().bottomLeftCorner.x * 100.f,
+                                 600 - p1.getAABB().rightUpperCorner.y * 100.f,
+                                 (p1.getAABB().rightUpperCorner.x - p1.getAABB().bottomLeftCorner.x) * 100.f,
+                                 (p1.getAABB().rightUpperCorner.y - p1.getAABB().bottomLeftCorner.y) * 100.f ,
+                                 sf::Color(0, 0, 0, 0), 1, sf::Color::White);
+    aabb2 = sf::Shape::Rectangle(p2.getAABB().bottomLeftCorner.x * 100.f,
+                                 600 - p2.getAABB().rightUpperCorner.y * 100.f,
+                                 (p2.getAABB().rightUpperCorner.x - p2.getAABB().bottomLeftCorner.x) * 100.f,
+                                 (p2.getAABB().rightUpperCorner.y - p2.getAABB().bottomLeftCorner.y) * 100.f ,
+                                 sf::Color(0, 0, 0, 0), 1, sf::Color::White);
+    if(p1.getAABB().intersects(p2.getAABB()))
+    {
+        aabb1.SetColor(sf::Color::Red);
+        aabb2.SetColor(sf::Color::Red);
+    }
 }
 
 void Intersect::display(const RenderInfos &renderinfos) const
 {
-     m_window.Draw(s1);
-     m_window.Draw(s2);
-     m_window.Draw(cp1);
-     m_window.Draw(cp2);
+    m_window.Draw(s1);
+    m_window.Draw(s2);
+    m_window.Draw(cp1);
+    m_window.Draw(cp2);
+    m_window.Draw(aabb1);
+    m_window.Draw(aabb2);
 }

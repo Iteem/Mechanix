@@ -1,6 +1,7 @@
 #ifndef MECHANIX_HPP_INCLUDED
 #define MECHANIX_HPP_INCLUDED
 
+#include <mechanix/AABB.hpp>
 #include <mechanix/body.hpp>
 #include <mechanix/bodydef.hpp>
 #include <mechanix/line.hpp>

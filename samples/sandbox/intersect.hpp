@@ -25,6 +25,9 @@ class Intersect : public State
 
         sf::Shape cp1;
         sf::Shape cp2;
+
+        sf::Shape aabb1;
+        sf::Shape aabb2;
 };
 
 #endif // INTERSECTS_HPP_INCLUDED

@@ -2,7 +2,7 @@
 #define POLYGON_HPP_INCLUDED
 
 #include <mechanix/vector2.hpp>
-
+#include <mechanix/AABB.hpp>
 #include <mechanix/shape.hpp>
 
 #include <cstddef>
@@ -33,6 +33,8 @@ class Polygon : public Shape
         virtual bool collide(const Shape *shape) const;
 
         Vector2f MTD(const Polygon *polygon) const;
+
+        virtual AABB getAABB(void) const;
 
         virtual Type getType() const;
 
