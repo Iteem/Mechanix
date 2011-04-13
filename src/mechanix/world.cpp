@@ -18,4 +18,22 @@ Body::Ptr World::createBody(const BodyDef &bodyDef, const Shape *shape)
     return ptr;
 }
 
+
+void World::update(bool timeStep)
+{
+    for(BodyList::iterator it = m_bodies.begin(); it != m_bodies.end(); ++it){
+        (*it)->update(timeStep);
+    }
+}
+
+void World::setGravitation(const mx::Vector2f &gravitation)
+{
+    m_gravitation = gravitation;
+}
+
+mx::Vector2f World::getGravitation(void)
+{
+    return m_gravitation;
+}
+
 } //namespace mx
