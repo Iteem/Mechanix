@@ -19,7 +19,7 @@ Body::Ptr World::createBody(const BodyDef &bodyDef, const Shape *shape)
 }
 
 
-void World::update(bool timeStep)
+void World::update(float timeStep)
 {
     for(BodyList::iterator it = m_bodies.begin(); it != m_bodies.end(); ++it){
         (*it)->update(timeStep);

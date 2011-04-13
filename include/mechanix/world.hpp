@@ -21,7 +21,7 @@ class World
 
         Body::Ptr createBody(const BodyDef &bodyDef, const Shape *shape);
 
-        void update(bool timeStep);
+        void update(float timeStep);
 
         void setGravitation(const mx::Vector2f &gravitation);
 

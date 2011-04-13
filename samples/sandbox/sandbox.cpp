@@ -2,6 +2,7 @@
 #include <sstream>
 
 #include "intersect.hpp"
+#include "collision.hpp"
 
 Sandbox::Sandbox() :
 m_window(sf::VideoMode(800, 600, 32), "PhysikTest", sf::Style::Titlebar | sf::Style::Close, sf::ContextSettings(24, 8, 6)),
@@ -63,7 +64,12 @@ int Sandbox::run()
 
         if(m_state != NULL)
         {
-            m_state->update(m_window.GetFrameTime());
+            if(m_run){
+                m_state->update(m_window.GetFrameTime());
+            } else {
+                m_state->update(0);
+            }
+
             m_state->display(m_renderInfos);
         }
 
@@ -108,15 +114,21 @@ void Sandbox::onScrollbarChanged(sfg::Widget::Ptr widget)
 
 void Sandbox::onListboxScrolled(sfg::Widget::Ptr widget)
 {
+    m_run = false;
+    m_makeStep = false;
+
     if(m_state != NULL){
         m_state->destroy();
     }
     delete m_state;
     m_state = NULL;
 
-    if(m_listbox->GetSelectedItem() == sf::String("Intersect"))
-    {
+    if(m_listbox->GetSelectedItem() == sf::String("Intersect")){
         m_state = new Intersect(m_window);
+        m_state->init();
+    }
+    else if(m_listbox->GetSelectedItem() == sf::String("Collision")){
+        m_state = new Collision(m_window);
         m_state->init();
     }
 }

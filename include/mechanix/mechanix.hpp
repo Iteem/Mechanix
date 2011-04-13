@@ -9,5 +9,6 @@
 #include <mechanix/polygon.hpp>
 #include <mechanix/shape.hpp>
 #include <mechanix/vector2.hpp>
+#include <mechanix/world.hpp>
 
 #endif // MECHANIX_HPP_INCLUDED
