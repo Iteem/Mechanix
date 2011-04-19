@@ -3,6 +3,7 @@
 
 #include "intersect.hpp"
 #include "collision.hpp"
+#include "bounce.hpp"
 
 Sandbox::Sandbox() :
 m_window(sf::VideoMode(800, 600, 32), "PhysikTest", sf::Style::Titlebar | sf::Style::Close, sf::ContextSettings(24, 8, 6)),
@@ -24,6 +25,7 @@ m_state(NULL)
 
     m_listbox->AddItem("Intersect");
     m_listbox->AddItem("Collision");
+    m_listbox->AddItem("Bounce");
 
     m_scrollbar->SetMinimum(10);
     m_scrollbar->SetMaximum(100);
@@ -129,6 +131,10 @@ void Sandbox::onListboxScrolled(sfg::Widget::Ptr widget)
     }
     else if(m_listbox->GetSelectedItem() == sf::String("Collision")){
         m_state = new Collision(m_window);
+        m_state->init();
+    }
+    else if(m_listbox->GetSelectedItem() == sf::String("Bounce")){
+        m_state = new Bounce(m_window);
         m_state->init();
     }
 }

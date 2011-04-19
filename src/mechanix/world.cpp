@@ -70,7 +70,7 @@ void World::update(float timeStep)
                     }
                 }
 
-                if(!((*it)->getBodyDef().isStatic()) and !((*it2)->getBodyDef().isStatic())){
+                if(!((*it)->getBodyDef().isStatic()) or !((*it2)->getBodyDef().isStatic())){
                     Vector2f n = cl.getDirectionVector().normal();
                     //n.normalize();
                     Vector2f p = cl.getPoint()+(cl.getDirectionVector()/2.f);

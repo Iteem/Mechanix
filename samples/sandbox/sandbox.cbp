@@ -93,6 +93,8 @@
 			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="bounce.cpp" />
+		<Unit filename="bounce.hpp" />
 		<Unit filename="collision.cpp" />
 		<Unit filename="collision.hpp" />
 		<Unit filename="intersect.cpp" />
