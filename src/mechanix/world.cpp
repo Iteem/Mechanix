@@ -27,8 +27,10 @@ Body::Ptr World::createBody(const BodyDef &bodyDef, const Shape *shape)
 void World::update(float timeStep)
 {
     for(BodyList::iterator it = m_bodies.begin(); it != m_bodies.end(); ++it){
-        (*it)->acceleration(m_gravitation*timeStep);
-        (*it)->update(timeStep);
+        if(!(*it)->getBodyDef().isStatic()){
+            (*it)->acceleration(m_gravitation*timeStep);
+            (*it)->update(timeStep);
+        }
     }
 
 
@@ -67,55 +69,53 @@ void World::update(float timeStep)
                         }
                     }
                 }
-                Vector2f n = cl.getDirectionVector().normal();
-                //n.normalize();
-                Vector2f p = cl.getPoint()+(cl.getDirectionVector()/2.f);
-                Body::Ptr b1 = (*it);
-                Body::Ptr b2 = (*it2);
 
-                mx::Vector2f r1(p - b1->getShape()->getPosition());
-                mx::Vector2f r2(p - b2->getShape()->getPosition());
+                if(!((*it)->getBodyDef().isStatic()) and !((*it2)->getBodyDef().isStatic())){
+                    Vector2f n = cl.getDirectionVector().normal();
+                    //n.normalize();
+                    Vector2f p = cl.getPoint()+(cl.getDirectionVector()/2.f);
+                    Body::Ptr b1 = (*it);
+                    Body::Ptr b2 = (*it2);
 
-                mx::Vector2f rap = r1.normal();
-                mx::Vector2f rbp = r2.normal();
+                    mx::Vector2f r1(p - b1->getShape()->getPosition());
+                    mx::Vector2f r2(p - b2->getShape()->getPosition());
 
-                float rapn = dot(rap, n);
-                float rbpn = dot(rbp, n);
+                    mx::Vector2f rap = r1.normal();
+                    mx::Vector2f rbp = r2.normal();
 
-                mx::Vector2f vp1(b1->getVelocity()+b1->getAngularVelocity()*rap);
-                mx::Vector2f vp2(b2->getVelocity()+b2->getAngularVelocity()*rbp);
-                mx::Vector2f vab(vp2 - vp1);
+                    float rapn = dot(rap, n);
+                    float rbpn = dot(rbp, n);
 
-                float M1 = b1->getBodyDef().getMass();
-                float M2 = b2->getBodyDef().getMass();
-                float I1 = b1->getBodyDef().getMomentOfInertia();
-                float I2 = b2->getBodyDef().getMomentOfInertia();
+                    mx::Vector2f vp1(b1->getVelocity()+b1->getAngularVelocity()*rap);
+                    mx::Vector2f vp2(b2->getVelocity()+b2->getAngularVelocity()*rbp);
+                    mx::Vector2f vab(vp2 - vp1);
 
-                float j = -(1+(b1->getBodyDef().getElasticity()+b2->getBodyDef().getElasticity())/2.f) * dot(vab, n);
-                j /= dot(n, n)*(1.f/M1+1.f/M2) + rapn*rapn/I1 + rbpn*rbpn/I2;
+                    float M1Inv = 0;
+                    float M2Inv = 0;
+                    float I1Inv = 0;
+                    float I2Inv = 0;
 
-                std::cout << "v1: " << b1->getVelocity().length() << " w1: " << b1->getAngularVelocity() << " "
-                          << "v2: " << b2->getVelocity().length() << " w2: " << b2->getAngularVelocity() << std::endl;
-                std::cout << "Energie: " << (pow(b1->getVelocity().length(), 2) * M1 + pow(b2->getVelocity().length(), 2) * M2 +
-                                             pow(b1->getAngularVelocity(), 2) * I1 + pow(b2->getAngularVelocity(), 2) * I2) * 0.5f << std::endl;
+                    if(!b1->getBodyDef().isStatic()){
+                        M1Inv = 1.f / b1->getBodyDef().getMass();
+                        I1Inv = 1.f / b1->getBodyDef().getMomentOfInertia();
+                    }
+                    if(!b2->getBodyDef().isStatic()){
+                        M2Inv = 1.f / b2->getBodyDef().getMass();
+                        I2Inv = 1.f / b2->getBodyDef().getMomentOfInertia();
+                    }
 
-                if(j > 0.f){
-                    b1->acceleration(-(j/M1) * n);
-                    b2->acceleration( (j/M2) * n);
 
-                    b1->angularAcceleration(-j/I1 * rapn);
-                    b2->angularAcceleration( j/I2 * rbpn);
+                    float j = -(1+(b1->getBodyDef().getElasticity()+b2->getBodyDef().getElasticity())/2.f) * dot(vab, n);
+                    j /= dot(n, n)*(M1Inv+M2Inv) + rapn*rapn*I1Inv + rbpn*rbpn*I2Inv;
+
+                    if(j > 0.f){
+                        b1->acceleration(-(j*M1Inv) * n);
+                        b2->acceleration( (j*M2Inv) * n);
+
+                        b1->angularAcceleration(-j*I1Inv * rapn);
+                        b2->angularAcceleration( j*I2Inv * rbpn);
+                    }
                 }
-
-                vp1 = b1->getVelocity()+b1->getAngularVelocity()*rap;
-                vp2 = b2->getVelocity()+b2->getAngularVelocity()*rbp;
-                vab = vp2 - vp1;
-
-                std::cout << "v1: " << b1->getVelocity().length() << " w1: " << b1->getAngularVelocity() << " "
-                          << "v2: " << b2->getVelocity().length() << " w2: " << b2->getAngularVelocity() << std::endl;
-                std::cout << "Energie: " << (pow(b1->getVelocity().length(), 2) * M1 + pow(b2->getVelocity().length(), 2) * M2 +
-                                             pow(b1->getAngularVelocity(), 2) * I1 + pow(b2->getAngularVelocity(), 2) * I2) * 0.5f << std::endl;
-                std::cout << std::endl;
             }
         }
     }

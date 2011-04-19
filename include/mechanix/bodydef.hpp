@@ -31,11 +31,17 @@ class BodyDef
         void setElasticity(float elasticity);
 
         float getElasticity(void) const;
+
+        void setStatic(bool b);
+
+        bool isStatic(void) const;
     private:
         float m_mass;
         float m_momentOfInertia;
         float m_friction;
         float m_elasticity;
+
+        bool m_isStatic;
 };
 
 } //namespace mx

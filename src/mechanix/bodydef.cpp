@@ -4,10 +4,11 @@ namespace mx
 {
 
 BodyDef::BodyDef() :
-m_mass(0),
-m_momentOfInertia(0),
+m_mass(1),
+m_momentOfInertia(1),
 m_friction(0),
-m_elasticity(0)
+m_elasticity(0),
+m_isStatic(false)
 {
 }
 
@@ -53,6 +54,16 @@ void BodyDef::setElasticity(float elasticity)
 float BodyDef::getElasticity(void) const
 {
     return m_elasticity;
+}
+
+void BodyDef::setStatic(bool b)
+{
+    m_isStatic = b;
+}
+
+bool BodyDef::isStatic(void) const
+{
+    return m_isStatic;
 }
 
 } //namespace mx
