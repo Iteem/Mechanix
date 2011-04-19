@@ -52,7 +52,10 @@ void Collision::init(void)
     b1 = m_world.createBody(bodyDef, &p1);
     b2 = m_world.createBody(bodyDef, &p2);
 
-    b1->acceleration(mx::Vector2f(1, 1));
+    b1->acceleration(mx::Vector2f(1.1, 1));
+    b2->acceleration(mx::Vector2f(-0.8, -0.7));
+    b1->angularAcceleration( 0.8f);
+    b2->angularAcceleration(-1.0f);
 
     m_world.setGravitation(mx::Vector2f(0, 0));
 }
@@ -63,7 +66,6 @@ void Collision::destroy(void)
 
 void Collision::update(float elapsedTime)
 {
-    std::cout << elapsedTime << std::endl;
     m_world.update(elapsedTime);
 
     s1.SetPosition(b1->getShape()->getPosition().x * 100, 600 - b1->getShape()->getPosition().y * 100);

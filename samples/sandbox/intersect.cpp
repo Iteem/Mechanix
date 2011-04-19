@@ -81,13 +81,13 @@ void Intersect::update(float elapsedTime)
         cp2.SetColor(sf::Color::Green);
 
         bool b = true;
-        for(int i = 0; i < p1.getNumberOfPoints(); ++i){
+        for(size_t i = 0; i < p1.getNumberOfPoints(); ++i){
             mx::Line line1;
             if(i == p1.getNumberOfPoints() - 1)
                 line1 = mx::Line(p1.getTransformedPoint(i), p1.getTransformedPoint(0)-p1.getTransformedPoint(i));
             else
                 line1 = mx::Line(p1.getTransformedPoint(i), p1.getTransformedPoint(i+1)-p1.getTransformedPoint(i));
-            for(int j = 0; j < p2.getNumberOfPoints(); ++j){
+            for(size_t j = 0; j < p2.getNumberOfPoints(); ++j){
                 mx::Line line2;
                 if(j == p2.getNumberOfPoints() - 1)
                     line2 = mx::Line(p2.getTransformedPoint(j), p2.getTransformedPoint(0)-p2.getTransformedPoint(j));

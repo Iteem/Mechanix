@@ -18,11 +18,19 @@ class BodyDef
 
         void setMass(float mass);
 
+        float getMass(void) const;
+
         void setMomentOfInertia(float momentOfInertia);
+
+        float getMomentOfInertia(void) const;
 
         void setFriction(float friction);
 
+        float getFriction(void) const;
+
         void setElasticity(float elasticity);
+
+        float getElasticity(void) const;
     private:
         float m_mass;
         float m_momentOfInertia;
