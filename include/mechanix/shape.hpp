@@ -57,6 +57,8 @@ class Shape
          */
         virtual bool collide(const Shape *shape) const = 0;
 
+        virtual Vector2f MTD(const Shape *shape) const = 0;
+
         virtual AABB getAABB(void) const = 0;
 
         enum Type{

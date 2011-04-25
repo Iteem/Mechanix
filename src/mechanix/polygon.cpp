@@ -157,21 +157,32 @@ bool Polygon::interCollide(const Polygon *polygon) const
     return true;
 }
 
-Vector2f Polygon::MTD(const Polygon *polygon) const
+Vector2f Polygon::MTD(const Shape *shape) const
 {
-    Vector2f vec;
-    Vector2f vec1 = internMTD(polygon);
-    Vector2f vec2 = polygon->internMTD(this);
+    switch(shape->getType())
+    {
+        case PolygonType:
+            {
+            const Polygon *polygon = static_cast<const Polygon *>(shape);
+            Vector2f vec;
+            Vector2f vec1 = internMTD(polygon);
+            Vector2f vec2 = polygon->internMTD(this);
 
-    if(vec1.length() < vec2.length())
-        vec = vec1;
-    else
-        vec = vec2;
+            if(vec1.length() < vec2.length())
+                vec = vec1;
+            else
+                vec = vec2;
 
-    if(dot(vec, polygon->getPosition()-getPosition()) < 0)
-        return vec;
-    else
-        return -vec;
+            if(dot(vec, polygon->getPosition()-getPosition()) < 0)
+                return vec;
+            else
+                return -vec;
+            }
+            break;
+        default:
+            return mx::Vector2f(0, 0);
+            break;
+    }
 }
 
 Vector2f Polygon::internMTD(const Polygon *polygon) const

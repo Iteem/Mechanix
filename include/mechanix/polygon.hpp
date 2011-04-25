@@ -32,7 +32,7 @@ class Polygon : public Shape
 
         virtual bool collide(const Shape *shape) const;
 
-        Vector2f MTD(const Polygon *polygon) const;
+        virtual Vector2f MTD(const Shape *shape) const;
 
         virtual AABB getAABB(void) const;
 

@@ -38,39 +38,38 @@ void World::update(float timeStep)
         BodyList::iterator ith = it;
         ith++;
         for(BodyList::iterator it2 = ith; it2 != m_bodies.end(); ++it2){
-            if((*it)->getShape()->collide((*it2)->getShape().get())){
-                Polygon *p1 = static_cast<Polygon *>((*it)->getShape().get());
-                Polygon *p2 = static_cast<Polygon *>((*it2)->getShape().get());
+            if(!((*it)->getBodyDef().isStatic()) or !((*it2)->getBodyDef().isStatic())){
+                if((*it)->getShape()->collide((*it2)->getShape().get())){
+                    Polygon *p1 = static_cast<Polygon *>((*it)->getShape().get());
+                    Polygon *p2 = static_cast<Polygon *>((*it2)->getShape().get());
 
-                bool b = true;
-                Line cl;
+                    bool b = true;
+                    Line cl;
 
-                Vector2f point1 = p1->getTransformedPoint(p1->getNumberOfPoints()-1);
-                Vector2f point2 = p2->getTransformedPoint(p2->getNumberOfPoints()-1);
+                    Vector2f point1 = p1->getTransformedPoint(p1->getNumberOfPoints()-1);
+                    Vector2f point2 = p2->getTransformedPoint(p2->getNumberOfPoints()-1);
 
-                for(size_t i = 0; i < p1->getNumberOfPoints(); ++i){
-                    Line line1(p1->getTransformedPoint(i), point1-p1->getTransformedPoint(i));
-                    point1 = p1->getTransformedPoint(i);
-                    for(size_t j = 0; j < p2->getNumberOfPoints(); ++j){
-                        Line line2(p2->getTransformedPoint(j), point2-p2->getTransformedPoint(j));
-                        point2 = p2->getTransformedPoint(j);
+                    for(size_t i = 0; i < p1->getNumberOfPoints(); ++i){
+                        Line line1(p1->getTransformedPoint(i), point1-p1->getTransformedPoint(i));
+                        point1 = p1->getTransformedPoint(i);
+                        for(size_t j = 0; j < p2->getNumberOfPoints(); ++j){
+                            Line line2(p2->getTransformedPoint(j), point2-p2->getTransformedPoint(j));
+                            point2 = p2->getTransformedPoint(j);
 
-                        float t1 = line1.intersects(line2);
-                        float t2 = line2.intersects(line1);
+                            float t1 = line1.intersects(line2);
+                            float t2 = line2.intersects(line1);
 
-                        if(0.f < t1 and t1 < 1.f and 0.f < t2 and t2 < 1.f){
-                            Vector2f vec = line1.getPoint() + t1 * line1.getDirectionVector();
-                            if(b){
-                                cl.setPoint(vec);
-                                b = false;
-                            } else {
-                                cl.setDirectionVector(vec - cl.getPoint());
+                            if(0.f < t1 and t1 < 1.f and 0.f < t2 and t2 < 1.f){
+                                Vector2f vec = line1.getPoint() + t1 * line1.getDirectionVector();
+                                if(b){
+                                    cl.setPoint(vec);
+                                    b = false;
+                                } else {
+                                    cl.setDirectionVector(vec - cl.getPoint());
+                                }
                             }
                         }
                     }
-                }
-
-                if(!((*it)->getBodyDef().isStatic()) or !((*it2)->getBodyDef().isStatic())){
                     Vector2f n = cl.getDirectionVector().normal();
                     //n.normalize();
                     Vector2f p = cl.getPoint()+(cl.getDirectionVector()/2.f);
@@ -108,13 +107,21 @@ void World::update(float timeStep)
                     float j = -(1+(b1->getBodyDef().getElasticity()+b2->getBodyDef().getElasticity())/2.f) * dot(vab, n);
                     j /= dot(n, n)*(M1Inv+M2Inv) + rapn*rapn*I1Inv + rbpn*rbpn*I2Inv;
 
-                    if(j > 0.f){
-                        b1->acceleration(-(j*M1Inv) * n);
-                        b2->acceleration( (j*M2Inv) * n);
+                    b1->acceleration(-(j*M1Inv) * n);
+                    b2->acceleration( (j*M2Inv) * n);
 
-                        b1->angularAcceleration(-j*I1Inv * rapn);
-                        b2->angularAcceleration( j*I2Inv * rbpn);
-                    }
+                    b1->angularAcceleration(-j*I1Inv * rapn);
+                    b2->angularAcceleration( j*I2Inv * rbpn);
+
+                    Shape::Ptr s1 = b1->getShape();
+                    Shape::Ptr s2 = b2->getShape();
+
+                    mx::Vector2f MTD = s1->MTD(s2.get());
+
+                    float MInv = M1Inv + M2Inv;
+
+                    s1->setPosition(s1->getPosition()+MTD*(M1Inv/MInv));
+                    s2->setPosition(s2->getPosition()-MTD*(M2Inv/MInv));
                 }
             }
         }

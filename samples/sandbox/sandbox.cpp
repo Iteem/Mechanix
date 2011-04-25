@@ -17,19 +17,20 @@ m_scrollbar(sfg::Scrollbar::Create(sf::FloatRect(660, 300, 110, 20), true)),
 m_scrollbarLabel(sfg::Label::Create(sf::Vector2f(0, 0))),
 m_run(false),
 m_makeStep(false),
+m_timer(0.f),
 m_renderInfos(),
 m_state(NULL)
 {
-    m_window.SetFramerateLimit(60);
+    //m_window.SetFramerateLimit(60);
     m_window.ShowMouseCursor(false);
 
     m_listbox->AddItem("Intersect");
     m_listbox->AddItem("Collision");
     m_listbox->AddItem("Bounce");
 
-    m_scrollbar->SetMinimum(10);
+    m_scrollbar->SetMinimum(1);
     m_scrollbar->SetMaximum(100);
-    m_scrollbar->SetValue(60);
+    m_scrollbar->SetValue(10);
     onScrollbarChanged(m_scrollbar);
 
     m_runButton->Clicked = sfg::Slot<sfg::Button::ClickSlot>(&Sandbox::onRunButtonClicked, this);
@@ -66,10 +67,19 @@ int Sandbox::run()
 
         if(m_state != NULL)
         {
+            float stepSize = 1.f/(m_scrollbar->GetValue()*10.f);
             if(m_run){
-                m_state->update(m_window.GetFrameTime());
-            } else {
-                m_state->update(0);
+                m_timer += m_window.GetFrameTime();
+                if(m_timer > 0.2f){
+                    m_timer = 0.2f;
+                }
+                while(m_timer > stepSize){
+                    m_state->update(stepSize);
+                    m_timer -= stepSize;
+                }
+            } else if(m_makeStep) {
+                m_state->update(stepSize);
+                m_makeStep = false;
             }
 
             m_state->display(m_renderInfos);
@@ -103,7 +113,7 @@ void Sandbox::onStepButtonClicked(sfg::Widget::Ptr widget)
 void Sandbox::onScrollbarChanged(sfg::Widget::Ptr widget)
 {
     std::stringstream str;
-    str << m_scrollbar->GetValue();
+    str << m_scrollbar->GetValue() * 10;
 
     m_scrollbarLabel->SetString(str.str());
     sfg::AlignWidgetInRect(
@@ -128,13 +138,16 @@ void Sandbox::onListboxScrolled(sfg::Widget::Ptr widget)
     if(m_listbox->GetSelectedItem() == sf::String("Intersect")){
         m_state = new Intersect(m_window);
         m_state->init();
+        m_state->update(0);
     }
     else if(m_listbox->GetSelectedItem() == sf::String("Collision")){
         m_state = new Collision(m_window);
         m_state->init();
+        m_state->update(0);
     }
     else if(m_listbox->GetSelectedItem() == sf::String("Bounce")){
         m_state = new Bounce(m_window);
         m_state->init();
+        m_state->update(0);
     }
 }

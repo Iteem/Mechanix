@@ -41,6 +41,7 @@ class Sandbox
 
         bool m_run;
         bool m_makeStep;
+        float m_timer;
 
         RenderInfos m_renderInfos;
         State *m_state;
